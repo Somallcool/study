@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{top::menu}"></div>
+<title>TEST INPUT</title>
+<body>
+    <div>
+        <h2>테스트 수정</h2>
+        <form th:action="@{/update_save}" method="post">
+            <div>
+                <label>시퀀스 넘버:</label>
+                <input type="text" id="num" name="testnum" th:value="${update.testnum}" readonly />
+            </div>
+            <div>
+                <label>숫자 입력:</label>
+                <input type="number" id="testvalue1" name="testvalue01" th:value="${update.testvalue01}" />
+            </div>
+            <div>
+                <label>문자 입력:</label>
+                <input type="text" id="testvalue2" name="testvalue02" th:value="${update.testvalue01}" />
+            </div>
+            <button type="submit">수정 완료</button>
+        </form>
+    </div>
+</body>
+</html>

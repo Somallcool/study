@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{top::menu}"></div>
+<title>TEST INPUT</title>
+<body>
+    <div>
+        <h2>테스트 입력</h2>
+        <form th:action="@{/save}" method="post">
+            <div>
+                <label>숫자 입력:</label>
+                <input type="number" id="testvalue1" name="testvalue01" />
+            </div>
+            <div>
+                <label>문자 입력:</label>
+                <input type="text" id="testvalue2" name="testvalue02" />
+            </div>
+            <button type="submit">SUBMIT</button>
+        </form>
+    </div>
+</body>
+</html>
