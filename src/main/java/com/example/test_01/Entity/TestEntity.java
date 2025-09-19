@@ -2,6 +2,9 @@ package com.example.test_01.Entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.cglib.core.Local;
+
+import java.time.LocalDate;
 
 @Entity
 @Setter
@@ -16,15 +19,16 @@ public class TestEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "test")
     @Column
-    long testnum;
+    private long testnum;
 
     @Column
-    int testvalue01;
+    private int testvalue01;
 
     @Column
-    String testvalue02;
+    private String testvalue02;
 
-    public TestEntity() {
+    @Column
+    private LocalDate inputdate;
 
-    }
+    public TestEntity() {}
 }

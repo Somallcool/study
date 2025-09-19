@@ -1,7 +1,9 @@
 package com.example.test_01.Controller;
 
+import com.example.test_01.DTO.Test02DTO;
 import com.example.test_01.DTO.TestDTO;
 import com.example.test_01.Entity.TestEntity;
+import com.example.test_01.Service.Test02Service;
 import com.example.test_01.Service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,13 @@ public class MainController {
 
     @Autowired
     TestService service;
+
+    @Autowired
+    private final Test02Service service02;
+
+    public MainController(Test02Service service02) {
+        this.service02 = service02;
+    }
 
     @GetMapping(value = "/")
     public String main(){
@@ -63,5 +72,19 @@ public class MainController {
         service.delete(num);
 
         return "redirect:/output";
+    }
+
+    // -------------------------------------------------------------------
+//입력창 이동
+    @GetMapping(value = "/input02")
+    public String input02(Test02DTO dto, Model model) {
+        model.addAttribute("dto", dto);
+        return "test02input";
+    }
+//저장
+    @PostMapping(value = "/save02")
+    public String save02(Test02DTO dto) {
+        service02.saveBoard(dto);
+        return "redirect:/";
     }
 }

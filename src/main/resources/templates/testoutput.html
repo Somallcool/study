@@ -10,11 +10,13 @@
                 <th>시퀀스넘버</th>
                 <th>숫자</th>
                 <th>문자</th>
+                <th>날짜</th>
             </tr>
             <tr th:each="out:${list}">
                 <td th:text="${out.testnum}"></td>
                 <td th:text="${out.testvalue01}"></td>
                 <td th:text="${out.testvalue02}"></td>
+                <td th:text="${out.inputdate}"></td>
                 <td>
                     <a th:href="@{update(num=${out.testnum})}">수정</a>
                     <a th:href="@{delete(num=${out.testnum})}">삭제</a>

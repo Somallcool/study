@@ -6,13 +6,18 @@ import com.example.test_01.Repository.TestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
 public class TestServiceElement implements TestService {
 
     @Autowired
-    TestRepository repository;
+    private final TestRepository repository;
+
+    public TestServiceElement(TestRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public void save(TestDTO dto) {
@@ -20,6 +25,7 @@ public class TestServiceElement implements TestService {
 
         entity.setTestvalue01(dto.getTestvalue01());
         entity.setTestvalue02(dto.getTestvalue02());
+        entity.setInputdate(LocalDate.now());
 
         repository.save(entity);
 
