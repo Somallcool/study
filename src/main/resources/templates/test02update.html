@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{top::menu}"></div>
+<body>
+  <div>
+    <h2>테스트 입력</h2>
+    <form th:action="@{/update_save02}" method="post">
+      <div>
+        <label>시퀀스 번호:</label>
+        <input type="text" id="id" name="id" th:value="${update.id}" readonly />
+      </div>
+      <div>
+        <label>제목 입력:</label>
+        <input type="text" id="title" name="title" th:value="${update.title}" />
+      </div>
+      <div>
+        <label>내용 입력:</label>
+        <input type="text" id="content" name="content" th:value="${update.content}" />
+      </div>
+      <div>
+        <label>저자 입력:</label>
+        <input type="text" id="writer" name="writer" th:value="${update.writer}" />
+      </div>
+      <div>
+        <label>날짜:</label>
+        <input type="text" id="inputdate" name="inputdate" th:value="${update.inputdate}" readonly />
+      </div>
+      <button type="submit">SUBMIT</button>
+    </form>
+  </div>
+</body>
+</html>

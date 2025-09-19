@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Entity
 @Setter
 @Getter
@@ -23,6 +25,9 @@ public class Test02Entity {
 
     @Column
     private String writer;
+
+    @Column
+    private LocalDate inputdate;
 
     public Test02Entity() {}
 }

@@ -2,6 +2,7 @@ package com.example.test_01.Controller;
 
 import com.example.test_01.DTO.Test02DTO;
 import com.example.test_01.DTO.TestDTO;
+import com.example.test_01.Entity.Test02Entity;
 import com.example.test_01.Entity.TestEntity;
 import com.example.test_01.Service.Test02Service;
 import com.example.test_01.Service.TestService;
@@ -86,5 +87,34 @@ public class MainController {
     public String save02(Test02DTO dto) {
         service02.saveBoard(dto);
         return "redirect:/";
+    }
+
+    @GetMapping(value = "/output02")
+    public String output02(Model model){
+
+        List<Test02Entity> list = service02.outBoard();
+        model.addAttribute("list", list);
+
+        return "test02output";
+    }
+
+    @GetMapping(value = "update2")
+    public String update02_1(@RequestParam("num") long num, Model model) {
+        Test02Entity entity= service02.update02(num);
+        model.addAttribute("update", entity);
+
+        return "test02update";
+    }
+
+    @PostMapping(value = "update_save02")
+    public String update02_2(Test02Entity entity) {
+        service02.update_save2(entity);
+        return "redirect:/output02";
+    }
+
+    @GetMapping("delete02")
+    public String delete02(@RequestParam("num") long num) {
+        service02.delete02(num);
+        return "redirect:/output02";
     }
 }

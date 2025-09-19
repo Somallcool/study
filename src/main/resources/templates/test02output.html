@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{top::menu}"></div>
+<body>
+    <div>
+        <h2>TEST OUT02</h2>
+        <table>
+            <tr>
+                <th>시퀀스 넘버</th>
+                <th>제목</th>
+                <th>저자</th>
+                <th>내용</th>
+                <th>날짜</th>
+            </tr>
+            <tr th:each="out2:${list}">
+                <td th:text="${out2.id}"></td>
+                <td th:text="${out2.title}"></td>
+                <td th:text="${out2.writer}"></td>
+                <td th:text="${out2.content}"></td>
+                <td th:text="${out2.inputdate}"></td>
+                <td>
+                    <a th:href="@{update2(num=${out2.id})}">수정</a>
+                    <a th:href="@{delete2(num=${out2.id})}">삭제</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
