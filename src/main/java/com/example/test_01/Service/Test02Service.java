@@ -15,4 +15,6 @@ public interface Test02Service {
     void update_save2(Test02Entity entity);
 
     void delete02(long num);
+
+    Test02Entity detail02(long num);
 }

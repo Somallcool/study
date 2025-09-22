@@ -3,6 +3,7 @@ package com.example.test_01.Entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -28,6 +29,9 @@ public class Test02Entity {
 
     @Column
     private LocalDate inputdate;
+
+    @Column
+    private String testimage;
 
     public Test02Entity() {}
 }

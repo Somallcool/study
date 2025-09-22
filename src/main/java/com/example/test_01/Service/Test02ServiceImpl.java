@@ -24,6 +24,7 @@ public class Test02ServiceImpl implements Test02Service{
         entity.setTitle(dto.getTitle());
         entity.setWriter(dto.getWriter());
         entity.setInputdate(LocalDate.now());
+        entity.setTestimage(dto.getTestimage());
 
         repository.save(entity);
     }
@@ -47,5 +48,10 @@ public class Test02ServiceImpl implements Test02Service{
     @Override
     public void delete02(long num) {
         repository.deleteById(num);
+    }
+
+    @Override
+    public Test02Entity detail02(long num) {
+        return repository.findById(num).orElse(null);
     }
 }

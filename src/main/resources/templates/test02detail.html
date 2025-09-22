@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{top::menu}"></div>
+<body>
+  <div>
+    <table>
+      <thead>
+      <tr>
+        <th>시쿼스 번호</th>
+        <th>제목</th>
+        <th>저자</th>
+        <th>내용</th>
+        <th>날짜</th>
+        <th>이미지</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="detail : ${detail}">
+        <td th:text="${detail.id}"></td>
+        <td th:text="${detail.title}"></td>
+        <td th:text="${detail.writer}"></td>
+        <td th:text="${detail.content}"></td>
+        <td th:text="${detail.inputdate}"></td>
+        <td>
+          <img th:src="@{'/image/' + ${detail.testimage}}" width="150" height="150" />
+        </td>
+      </tr>
+      </tbody>
+     <!-- <tr th:each="detail:${detail}">
+        <th>시쿼스 번호</th>
+        <td th:text="${detail.id}"></td>
+        <th>제목</th>
+        <td th:text="${detail.title}"></td>
+        <th>저자</th>
+        <td th:text="${detail.writer}"></td>
+        <th>내용</th>
+        <td th:text="${detail.content}"></td>
+        <th>날짜</th>
+        <td th:text="${detail.inputdate}"></td>-->
+      <!--</tr>-->
+    </table>
+  </div>
+</body>
+</html>

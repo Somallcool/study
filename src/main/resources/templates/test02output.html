@@ -12,13 +12,17 @@
                 <th>저자</th>
                 <th>내용</th>
                 <th>날짜</th>
+                <th>이미지</th>
             </tr>
-            <tr th:each="out2:${list}">
+            <tr th:each="out2:${list}" th:onclick="|window.location='@{detail02(num=${out2.id})}'|" style="cursor:pointer;">
                 <td th:text="${out2.id}"></td>
                 <td th:text="${out2.title}"></td>
                 <td th:text="${out2.writer}"></td>
                 <td th:text="${out2.content}"></td>
                 <td th:text="${out2.inputdate}"></td>
+                <td>
+                    <img th:src="@{'/image/' + ${out2.testimage}}" width="150" height="150" />
+                </td>
                 <td>
                     <a th:href="@{update2(num=${out2.id})}">수정</a>
                     <a th:href="@{delete2(num=${out2.id})}">삭제</a>

@@ -13,14 +13,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class MainController {
 
     @Autowired
     TestService service;
+    String path = "C:\\◎study\\01. spring boot\\study\\src\\main\\resources\\static\\image";
 
     @Autowired
     private final Test02Service service02;
@@ -84,8 +90,21 @@ public class MainController {
     }
 //저장
     @PostMapping(value = "/save02")
-    public String save02(Test02DTO dto) {
+    public String save02(Test02DTO dto, MultipartHttpServletRequest mul) throws IOException {
+
+        MultipartFile mf = mul.getFile("image");
+
+        String filename = mf.getOriginalFilename();
+
+        UUID uu = UUID.randomUUID();
+        String fname = uu.toString() + "-" + filename;
+
+        dto.setTestimage(fname);
+
+        mf.transferTo(new File(path + "\\" + fname));
+
         service02.saveBoard(dto);
+
         return "redirect:/";
     }
 
@@ -112,9 +131,17 @@ public class MainController {
         return "redirect:/output02";
     }
 
-    @GetMapping("delete02")
+    @GetMapping("delete2")
     public String delete02(@RequestParam("num") long num) {
         service02.delete02(num);
         return "redirect:/output02";
+    }
+
+    @GetMapping("detail02")
+    public String detial02(@RequestParam("num") long num, Model model) {
+        Test02Entity entity = service02.detail02(num);
+        model.addAttribute("detail", entity);
+
+        return "test02detail";
     }
 }

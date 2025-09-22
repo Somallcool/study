@@ -2,6 +2,7 @@ package com.example.test_01.DTO;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -13,5 +14,6 @@ public class Test02DTO {
     private String content;
     private String writer;
     private LocalDate inputdate;
+    private String testimage;
 
 }
