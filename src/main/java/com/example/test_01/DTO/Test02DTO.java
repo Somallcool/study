@@ -1,5 +1,6 @@
 package com.example.test_01.DTO;
 
+import com.example.test_01.Entity.Test02Entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,5 +16,9 @@ public class Test02DTO {
     private String writer;
     private LocalDate inputdate;
     private String testimage;
+
+    public Test02DTO(Test02Entity entity){
+
+    }
 
 }

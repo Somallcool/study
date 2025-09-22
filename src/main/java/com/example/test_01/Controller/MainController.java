@@ -7,6 +7,7 @@ import com.example.test_01.Entity.TestEntity;
 import com.example.test_01.Service.Test02Service;
 import com.example.test_01.Service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -125,11 +127,34 @@ public class MainController {
         return "test02update";
     }
 
-    @PostMapping(value = "update_save02")
-    public String update02_2(Test02Entity entity) {
+    @PostMapping(value = "update_save02") //GPT가 해준 부분
+    public String update02_2(
+            @RequestParam("id") long id,
+            @RequestParam("title") String title,
+            @RequestParam("content") String content,
+            @RequestParam("writer") String writer,
+            @RequestParam("inputdate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inputdate,
+            @RequestParam(value = "testimage", required = false) MultipartFile mf
+    ) throws IOException {
+
+        Test02Entity entity = service02.update02(id);
+
+        entity.setTitle(title);
+        entity.setContent(content);
+        entity.setWriter(writer);
+        entity.setInputdate(inputdate);
+
+        if (mf != null && !mf.isEmpty()) {
+            String filename = UUID.randomUUID() + "-" + mf.getOriginalFilename();
+            mf.transferTo(new File(path + "\\" + filename));
+            entity.setTestimage(filename);
+        } // 파일 없으면 기존 이미지 유지
+
         service02.update_save2(entity);
+
         return "redirect:/output02";
     }
+
 
     @GetMapping("delete2")
     public String delete02(@RequestParam("num") long num) {

@@ -36,12 +36,12 @@ public class Test02ServiceImpl implements Test02Service{
 
     @Override
     public Test02Entity update02(long num) {
-        return repository.findById(num).orElse(null);
+        return repository.findById(num)
+                .orElseThrow(()-> new RuntimeException("아이디를 찾을 수 없습니다."));
     }
 
     @Override
     public void update_save2(Test02Entity entity) {
-        entity.setInputdate(LocalDate.now());
         repository.save(entity);
     }
 

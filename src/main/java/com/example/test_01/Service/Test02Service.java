@@ -12,7 +12,7 @@ public interface Test02Service {
 
     Test02Entity update02(long num);
 
-    void update_save2(Test02Entity entity);
+    void update_save2(Test02Entity Entity);
 
     void delete02(long num);
 
