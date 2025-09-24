@@ -157,13 +157,17 @@ public class MainController {
 
 
     @GetMapping("delete2")
-    public String delete02(@RequestParam("num") long num) {
+    public String delete02(@RequestParam("num") long num,
+                           @RequestParam("testimage") String testimage) {
         service02.delete02(num);
+        File fname = new File(path + "\\" + testimage);
+        fname.delete();
         return "redirect:/output02";
     }
 
     @GetMapping("detail02")
-    public String detial02(@RequestParam("num") long num, Model model) {
+    public String detial02(@RequestParam("num") long num,
+                           Model model) {
         Test02Entity entity = service02.detail02(num);
         model.addAttribute("detail", entity);
 
