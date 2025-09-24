@@ -7,6 +7,10 @@ import com.example.test_01.Entity.TestEntity;
 import com.example.test_01.Service.Test02Service;
 import com.example.test_01.Service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -110,14 +114,21 @@ public class MainController {
         return "redirect:/";
     }
 
-    @GetMapping(value = "/output02")
-    public String output02(Model model){
+    @GetMapping("/output02")
+    public String output02(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "5") int size,
+            Model model) {
 
-        List<Test02Entity> list = service02.outBoard();
+        List<Test02Entity> list = service02.outBoard(page, size);
+        int totalPages = service02.getTotalPages(size);
+
         model.addAttribute("list", list);
-
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
         return "test02output";
     }
+
 
     @GetMapping(value = "update2")
     public String update02_1(@RequestParam("num") long num, Model model) {

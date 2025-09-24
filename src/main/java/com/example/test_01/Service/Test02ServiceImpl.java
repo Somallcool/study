@@ -3,7 +3,8 @@ package com.example.test_01.Service;
 import com.example.test_01.DTO.Test02DTO;
 import com.example.test_01.Entity.Test02Entity;
 import com.example.test_01.Repository.Test02Repository;
-import org.springframework.cglib.core.Local;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -30,8 +31,16 @@ public class Test02ServiceImpl implements Test02Service{
     }
 
     @Override
-    public List<Test02Entity> outBoard() {
-        return repository.findAll();
+    public List<Test02Entity> outBoard(int page, int size) {
+        int startRow = (page - 1) * size;   // ex: 1페이지 → 0, 2페이지 → size
+        int endRow = page * size;           // ex: 1페이지 → size, 2페이지 → 2*size
+        return repository.findWithPaging(startRow, endRow);
+    }
+
+    @Override
+    public int getTotalPages(int size) {
+        int totalCount = repository.getTotalCount();
+        return (int) Math.ceil((double) totalCount/size);
     }
 
     @Override
