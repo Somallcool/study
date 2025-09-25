@@ -21,4 +21,6 @@ public interface Test02Service {
     void delete02(long num);
 
     Test02Entity detail02(long num);
+
+    List<Test02Entity> titleSearch(String testsearch);
 }

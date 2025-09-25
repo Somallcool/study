@@ -63,4 +63,18 @@ public class Test02ServiceImpl implements Test02Service{
     public Test02Entity detail02(long num) {
         return repository.findById(num).orElse(null);
     }
+
+    //findBy 사용 검색
+    @Override
+    public List<Test02Entity> titleSearch(String testsearch) {
+        return repository.findByTitleContainingIgnoreCase(testsearch);
+    }
+/*
+//쿼리문 사용 검색
+    @Override
+    public List<Test02Entity> titleSearch(String testsearch) {
+        return repository.findTitle(testsearch);
+    }
+
+ */
 }

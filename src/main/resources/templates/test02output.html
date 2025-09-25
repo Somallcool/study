@@ -3,58 +3,69 @@
 <div th:replace="~{top::menu}"></div>
 <body>
 <div>
-    <h2>TEST OUT02</h2>
-    <table>
-        <tr>
-            <th>시퀀스 넘버</th>
-            <th>제목</th>
-            <th>저자</th>
-            <th>내용</th>
-            <th>날짜</th>
-            <th>이미지</th>
-            <th>관리</th>
-        </tr>
-        <tr th:each="out2 : ${list}"
-            th:onclick="|window.location='@{detail02(num=${out2.id})}'|"
-            style="cursor:pointer;">
-            <td th:text="${out2.id}"></td>
-            <td th:text="${out2.title}"></td>
-            <td th:text="${out2.writer}"></td>
-            <td th:text="${out2.content}"></td>
-            <td th:text="${out2.inputdate}"></td>
-            <td>
-                <img th:src="@{'/image/' + ${out2.testimage}}" width="150" height="150"/>
-            </td>
-            <td>
-                <a th:href="@{update2(num=${out2.id})}">수정</a>
-                <a th:href="@{delete2(num=${out2.id}, testimage=${out2.testimage})}"
-                   onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</a>
-            </td>
-        </tr>
-    </table>
-    <!-- 페이지 네비게이션 -->
     <div>
-        <ul>
-            <li th:each="i : ${#numbers.sequence(1, totalPages)}">
+        <h2>TEST SEARCH</h2>
+        <form action="test02search" method="get">
+            <div>
+                <input type="text" name="testsearch" id="testsearch" placeholder="제목을 입력해주세요.">
+                <button type="submit">검색</button>
+            </div>
+        </form>
+    </div>
+    <div>
+        <h2>TEST OUT02</h2>
+        <table>
+            <tr>
+                <th>시퀀스 넘버</th>
+                <th>제목</th>
+                <th>저자</th>
+                <th>내용</th>
+                <th>날짜</th>
+                <th>이미지</th>
+                <th>관리</th>
+            </tr>
+            <tr th:each="out2 : ${list}"
+                th:onclick="|window.location='@{detail02(num=${out2.id})}'|"
+                style="cursor:pointer;">
+                <td th:text="${out2.id}"></td>
+                <td th:text="${out2.title}"></td>
+                <td th:text="${out2.writer}"></td>
+                <td th:text="${out2.content}"></td>
+                <td th:text="${out2.inputdate}"></td>
+                <td>
+                    <img th:src="@{'/image/' + ${out2.testimage}}" width="150" height="150"/>
+                </td>
+                <td>
+                    <a th:href="@{update2(num=${out2.id})}">수정</a>
+                    <a th:href="@{delete2(num=${out2.id}, testimage=${out2.testimage})}"
+                       onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</a>
+                </td>
+            </tr>
+        </table>
+        <!-- 페이지 네비게이션 -->
+        <div>
+            <ul>
+                <li th:each="i : ${#numbers.sequence(1, totalPages)}">
+                    <a th:href="@{/output02(page=${i}, size=5)}"
+                       th:text="${i}"
+                       th:classappend="${i == currentPage} ? 'active' : ''"></a>
+                </li>
+            </ul>
+        </div>
+        <!-- 페이지 네비게이션 -->
+        <div class="pagination">
+            <a th:if="${currentPage > 1}"
+               th:href="@{/output02(page=${currentPage - 1}, size=5)}">이전</a>
+
+            <span th:each="i : ${#numbers.sequence(1, totalPages)}">
                 <a th:href="@{/output02(page=${i}, size=5)}"
                    th:text="${i}"
                    th:classappend="${i == currentPage} ? 'active' : ''"></a>
-            </li>
-        </ul>
-    </div>
-    <!-- 페이지 네비게이션 -->
-    <div class="pagination">
-        <a th:if="${currentPage > 1}"
-           th:href="@{/output02(page=${currentPage - 1}, size=5)}">이전</a>
+            </span>
 
-        <span th:each="i : ${#numbers.sequence(1, totalPages)}">
-            <a th:href="@{/output02(page=${i}, size=5)}"
-               th:text="${i}"
-               th:classappend="${i == currentPage} ? 'active' : ''"></a>
-        </span>
-
-        <a th:if="${currentPage < totalPages}"
-           th:href="@{/output02(page=${currentPage + 1}, size=5)}">다음</a>
+            <a th:if="${currentPage < totalPages}"
+               th:href="@{/output02(page=${currentPage + 1}, size=5)}">다음</a>
+        </div>
     </div>
 </div>
 </body>

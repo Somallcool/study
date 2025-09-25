@@ -184,4 +184,15 @@ public class MainController {
 
         return "test02detail";
     }
+
+    @GetMapping(value = "/test02search")
+    public String search02(@RequestParam("testsearch") String testsearch,
+                           Model mo){
+        List<Test02Entity> list = service02.titleSearch(testsearch);
+        mo.addAttribute("list", list);
+        mo.addAttribute("totalPages", 1);
+        mo.addAttribute("currentPage", 1);
+
+        return "test02output";
+    }
 }

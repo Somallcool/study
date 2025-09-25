@@ -4,25 +4,35 @@
 <div th:replace="~{top::menu}"></div>
 <body>
     <div>
-        <h2>TEST OUT</h2>
-        <table>
-            <tr>
-                <th>시퀀스넘버</th>
-                <th>숫자</th>
-                <th>문자</th>
-                <th>날짜</th>
-            </tr>
-            <tr th:each="out:${list}">
-                <td th:text="${out.testnum}"></td>
-                <td th:text="${out.testvalue01}"></td>
-                <td th:text="${out.testvalue02}"></td>
-                <td th:text="${out.inputdate}"></td>
-                <td>
-                    <a th:href="@{update(num=${out.testnum})}">수정</a>
-                    <a th:href="@{delete(num=${out.testnum})}">삭제</a>
-                </td>
-            </tr>
-        </table>
+        <div>
+            <h2>TEST SEARCH</h2>
+            <form action="testsearch" method="post">
+                <div>
+                    <input type="text" name="testsearch" id="testsearch" placeholder="검색어를 입력해주세요.">
+                </div>
+            </form>
+        </div>
+        <div>
+            <h2>TEST OUT</h2>
+            <table>
+                <tr>
+                    <th>시퀀스넘버</th>
+                    <th>숫자</th>
+                    <th>문자</th>
+                    <th>날짜</th>
+                </tr>
+                <tr th:each="out:${list}">
+                    <td th:text="${out.testnum}"></td>
+                    <td th:text="${out.testvalue01}"></td>
+                    <td th:text="${out.testvalue02}"></td>
+                    <td th:text="${out.inputdate}"></td>
+                    <td>
+                        <a th:href="@{update(num=${out.testnum})}">수정</a>
+                        <a th:href="@{delete(num=${out.testnum})}">삭제</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </body>
 </html>

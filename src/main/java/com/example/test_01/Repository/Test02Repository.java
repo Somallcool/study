@@ -21,4 +21,11 @@ public interface Test02Repository extends JpaRepository<Test02Entity, Long> {
 
     @Query(value = "SELECT COUNT(*) FROM testtable02", nativeQuery = true)
     int getTotalCount();
+
+
+    @Query(value = "SELECT * FROM testtable02 " +
+            "WHERE title LIKE '%' || :testsearch || '%'", nativeQuery = true)
+    List<Test02Entity> findTitle(@Param("testsearch") String testsearch);
+
+    List<Test02Entity> findByTitleContainingIgnoreCase(String testsearch);
 }
