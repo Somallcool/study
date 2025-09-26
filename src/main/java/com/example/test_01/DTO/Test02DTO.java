@@ -17,7 +17,7 @@ public class Test02DTO {
     private LocalDate inputdate;
     private String testimage;
 
-    public Test02DTO(Test02Entity entity){
+    public Test02DTO(Test02Entity entity) {
 
     }
 

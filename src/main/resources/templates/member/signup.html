@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{top::menu}"></div>
+<title>TEST MEMBER</title>
+<body>
+<script>
+  var isidAvailable = false;
+
+  $(document).ready(function () {
+      $("#id_check").click(function () {
+          var id = $("#id").val();
+          var idRegex = /^[a-zA-Z0-9]{4,12}$/;
+
+          if (!idRegex.test(id)) {
+              alert('아이디는 4자 ~ 12자 이하의 영문자 또는 숫자만 가능합니다.');
+              $("#id").focus();
+              return;
+          }
+
+          $.ajax({
+              type: "post",
+              url: "idcheck",
+              data: {"id": id},
+              success: function (data) {
+                  if (data === "ok") {
+                      alert("사용 가능한 아이디입니다.");
+                      isidAvailable = true;
+                  } else {
+                      alert("이미 사용중인 아이디입니다.");
+                      isidAvailable = false;
+                      $("#id").focus();
+                  }
+              },
+              error: function () {
+                  alert("서버 통신 중 오류가 발생했습니다.");
+              }
+          });
+      });
+  });
+</script>
+
+<div>
+    <h2>회원가입</h2>
+    <form th:action="@{/signup_save}" th:object="${memberDTO}" method="post">
+
+        <!-- ajax 유효성 검사 -->
+        <div>
+            <label>ID: </label>
+            <input type="text" id="id" name="id"/>
+            <button type="button" name="id_check" id="id_check">ID CHECK</button>
+        </div>
+
+        <!-- Validation 유효성 검사 -->
+        <!--
+        <div>
+            <label>ID: </label>
+            <input type="text" th:field="*{id}" />
+            <p th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></p>
+        </div>
+        -->
+
+        <div>
+            <label>PW: </label>
+            <input type="text" id="pw" name="pw"/>
+        </div>
+        <div>
+            <label>PW CHECK: </label>
+            <input type="text" id="pw" name="pw"/>
+        </div>
+        <div>
+            <label>NICKNAME: </label>
+            <input type="text" id="nickname" name="nickname"/>
+        </div>
+        <div>
+            <label>CELLPHONE: </label>
+            <input type="text" id="phone" name="phone"/>
+        </div>
+        <div>
+            <label>ADRESS: </label>
+            <input type="text" id="madress" name="madress"/>
+        </div>
+        <button type="submit">SUBMIT</button>
+    </form>
+</div>
+</body>
+</html>
