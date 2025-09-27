@@ -75,4 +75,15 @@ public class MemberController {
         }
     }
 
+    @PostMapping("/nickname_check")
+    @ResponseBody
+    public String nickcheck(@RequestParam("nickname") String nickname){
+        int count = service.nickcheck(nickname);
+        if (count == 0) {
+            return "match";
+        } else {
+            return "no";
+        }
+    }
+
 }

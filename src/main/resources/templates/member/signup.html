@@ -83,11 +83,54 @@ $(document).ready(function () {
     });
 });
 </script>
+
+<!-- NICKNAME check -->
+<script>
+    var isNickMatch = false;
+
+    $(document).ready(function () {
+        $("#nick_check_btn").click( function () {
+            var nickname = $("#nickname").val();
+
+            if(nickname === "") {
+                alert("닉네임을 입력해주세요.");
+                return;
+            }
+
+            $.ajax({
+                type:"post",
+                url:"/nickname_check",
+                data:{"nickname":nickname},
+                success: function(data) {
+                    if(data === "match"){
+                        $("#nick_check_msg").text("사용 가능한 닉네임입니다.").css("color", "green");
+                        isNickMatch = true;
+                    } else {
+                        $("#nick_check_msg").text("이미 사용중인 닉네임입니다.").css("color", "red");
+                        isNickMatch = false;
+                        $("#nickname").focus().select();
+                    }
+                },
+                error: function () {
+                    alert("서버 통신 중 오류가 발생했습니다.");
+                }
+            });
+        });
+
+        $("form").submit(function() {
+            if(!isNickMatch){
+                alert("닉네임 중복 확인을 완료해주세요.");
+                $("#nickname").focus().select();
+                return false;
+            }
+        });
+    });
+</script>
 <div>
     <h2>회원가입</h2>
     <form th:action="@{/signup_save}" th:object="${memberDTO}" method="post">
 
-        <!-- ajax 유효성 검사 -->
+        <!-- ID ajax 유효성 검사 -->
         <div>
             <label>ID: </label>
             <input type="text" id="id" name="id"/>
@@ -103,11 +146,13 @@ $(document).ready(function () {
         </div>
         -->
 
+        <!-- 비밀번호 -->
         <div>
             <label>PW: </label>
             <input type="password" id="pw" name="pw"/>
         </div>
 
+        <!-- 비밀번호 확인 -->
         <div>
             <label>PW CHECK: </label>
             <input type="password" id="pw_check" name="pwcheck"/>
@@ -115,9 +160,12 @@ $(document).ready(function () {
             <span id="pw_check_msg" style="color:red;"></span>
         </div>
 
+        <!-- 닉네임 중복검사 -->
         <div>
             <label>NICKNAME: </label>
             <input type="text" id="nickname" name="nickname"/>
+            <button type="button" id="nick_check_btn">닉네임 확인</button>
+            <span id="nick_check_msg" style="color:red;"></span>
         </div>
         <div>
             <label>CELLPHONE: </label>

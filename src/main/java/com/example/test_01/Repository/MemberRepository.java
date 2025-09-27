@@ -12,4 +12,9 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
             "FROM testtable03 m " +
             "WHERE m.id = :id", nativeQuery = true)
     int idcheck(@Param("id") String id);
+
+    @Query(value = "SELECT COUNT(nickname) " +
+            "FROM testtable03 " +
+            "WHERE nickname = :nickname", nativeQuery = true)
+    int nickcheck(@Param("nickname") String nickname);
 }

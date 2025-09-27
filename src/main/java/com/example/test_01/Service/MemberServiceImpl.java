@@ -27,6 +27,11 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
+    public int nickcheck(String nickname) {
+        return repository.nickcheck(nickname);
+    }
+
+    @Override
     public int idcehck(String id) {
         return repository.idcheck(id);
     }
