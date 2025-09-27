@@ -4,42 +4,85 @@
 <div th:replace="~{top::menu}"></div>
 <title>TEST MEMBER</title>
 <body>
+<!-- id check -->
 <script>
-  var isidAvailable = false;
+    var isidAvailable = false;
 
-  $(document).ready(function () {
-      $("#id_check").click(function () {
-          var id = $("#id").val();
-          var idRegex = /^[a-zA-Z0-9]{4,12}$/;
+    $(document).ready(function () {
+        $("#id_check").click(function () {
+            var id = $("#id").val();
+            var idRegex = /^[a-zA-Z0-9]{4,12}$/;
 
-          if (!idRegex.test(id)) {
-              alert('아이디는 4자 ~ 12자 이하의 영문자 또는 숫자만 가능합니다.');
-              $("#id").focus();
-              return;
-          }
+            if (!idRegex.test(id)) {
+                alert('아이디는 4자 ~ 12자 이하의 영문자 또는 숫자만 가능합니다.');
+                $("#id").focus();
+                return;
+            }
 
-          $.ajax({
-              type: "post",
-              url: "idcheck",
-              data: {"id": id},
-              success: function (data) {
-                  if (data === "ok") {
-                      alert("사용 가능한 아이디입니다.");
-                      isidAvailable = true;
-                  } else {
-                      alert("이미 사용중인 아이디입니다.");
-                      isidAvailable = false;
-                      $("#id").focus();
-                  }
-              },
-              error: function () {
-                  alert("서버 통신 중 오류가 발생했습니다.");
-              }
-          });
-      });
-  });
+            $.ajax({
+                type: "post",
+                url: "idcheck",
+                data: {"id": id},
+                success: function (data) {
+                    if (data === "ok") {
+                        alert("사용 가능한 아이디입니다.");
+                        isidAvailable = true;
+                    } else {
+                        alert("이미 사용중인 아이디입니다.");
+                        isidAvailable = false;
+                        $("#id").focus();
+                    }
+                },
+                error: function () {
+                    alert("서버 통신 중 오류가 발생했습니다.");
+                }
+            });
+        });
+    });
 </script>
 
+<!-- pw check -->
+<script>
+var isPwMatch = false;
+
+$(document).ready(function () {
+    $("#pw_check_btn").click(function () {
+        var pw = $("#pw").val();
+        var pwCheck = $("#pw_check").val();
+
+        if(pw === "" || pwCheck === "") {
+            alert("비밀번호를 모두 입력해주세요.");
+            return;
+        }
+
+        $.ajax({
+            type: "post",
+            url: "/pwcheck",
+            data: { "pw": pw, "pwCheck": pwCheck },
+            success: function (data) {
+                if(data === "match") {
+                    $("#pw_check_msg").text("비밀번호가 일치합니다.").css("color", "green");
+                    isPwMatch = true;
+                } else {
+                    $("#pw_check_msg").text("비밀번호가 일치하지 않습니다.").css("color", "red");
+                    isPwMatch = false;
+                    $("#pw_check").focus();
+                }
+            },
+            error: function () {
+                alert("서버 통신 중 오류가 발생했습니다.");
+            }
+        });
+    });
+
+    $("form").submit(function () {
+        if(!isPwMatch) {
+            alert("비밀번호가 일치하지 않습니다.");
+            return false;
+        }
+    });
+});
+</script>
 <div>
     <h2>회원가입</h2>
     <form th:action="@{/signup_save}" th:object="${memberDTO}" method="post">
@@ -62,12 +105,16 @@
 
         <div>
             <label>PW: </label>
-            <input type="text" id="pw" name="pw"/>
+            <input type="password" id="pw" name="pw"/>
         </div>
+
         <div>
             <label>PW CHECK: </label>
-            <input type="text" id="pw" name="pw"/>
+            <input type="password" id="pw_check" name="pwcheck"/>
+            <button type="button" id="pw_check_btn">비밀번호 확인</button>
+            <span id="pw_check_msg" style="color:red;"></span>
         </div>
+
         <div>
             <label>NICKNAME: </label>
             <input type="text" id="nickname" name="nickname"/>

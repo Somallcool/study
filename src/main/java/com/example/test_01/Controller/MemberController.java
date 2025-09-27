@@ -30,10 +30,14 @@ public class MemberController {
 
     @PostMapping("/signup_save")
     public String signup02(MemberDTO dto) {
+        if(!dto.getPw().equals(dto.getPwcheck())) {
+            return "member/signup";
+        }
 
         service.save(dto);
         return "redirect:/";
     }
+
 /*
     @PostMapping("/signup_save")
     public String signup02(@Valid MemberDTO dto, BindingResult bindingResult, Model model) {
@@ -58,4 +62,17 @@ public class MemberController {
             return "no";
         }
     }
+
+    @PostMapping("/pwcheck")
+    @ResponseBody
+    public String pwcheck(@RequestParam("pw") String pw,
+                          @RequestParam("pwCheck") String pwCheck) {
+
+        if(pw.equals(pwCheck)) {
+            return "match";
+        } else {
+            return "nomatch";
+        }
+    }
+
 }
