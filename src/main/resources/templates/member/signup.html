@@ -43,45 +43,45 @@
 
 <!-- pw check -->
 <script>
-var isPwMatch = false;
+    var isPwMatch = false;
 
-$(document).ready(function () {
-    $("#pw_check_btn").click(function () {
-        var pw = $("#pw").val();
-        var pwCheck = $("#pw_check").val();
+    $(document).ready(function () {
+        $("#pw_check_btn").click(function () {
+            var pw = $("#pw").val();
+            var pwCheck = $("#pw_check").val();
 
-        if(pw === "" || pwCheck === "") {
-            alert("비밀번호를 모두 입력해주세요.");
-            return;
-        }
+            if(pw === "" || pwCheck === "") {
+                alert("비밀번호를 모두 입력해주세요.");
+                return;
+            }
 
-        $.ajax({
-            type: "post",
-            url: "/pwcheck",
-            data: { "pw": pw, "pwCheck": pwCheck },
-            success: function (data) {
-                if(data === "match") {
-                    $("#pw_check_msg").text("비밀번호가 일치합니다.").css("color", "green");
-                    isPwMatch = true;
-                } else {
-                    $("#pw_check_msg").text("비밀번호가 일치하지 않습니다.").css("color", "red");
-                    isPwMatch = false;
-                    $("#pw_check").focus();
+            $.ajax({
+                type: "post",
+                url: "/pwcheck",
+                data: { "pw": pw, "pwCheck": pwCheck },
+                success: function (data) {
+                    if(data === "match") {
+                        $("#pw_check_msg").text("비밀번호가 일치합니다.").css("color", "green");
+                        isPwMatch = true;
+                    } else {
+                        $("#pw_check_msg").text("비밀번호가 일치하지 않습니다.").css("color", "red");
+                        isPwMatch = false;
+                        $("#pw_check").focus();
+                    }
+                },
+                error: function () {
+                    alert("서버 통신 중 오류가 발생했습니다.");
                 }
-            },
-            error: function () {
-                alert("서버 통신 중 오류가 발생했습니다.");
+            });
+        });
+
+        $("form").submit(function () {
+            if(!isPwMatch) {
+                alert("비밀번호가 일치하지 않습니다.");
+                return false;
             }
         });
     });
-
-    $("form").submit(function () {
-        if(!isPwMatch) {
-            alert("비밀번호가 일치하지 않습니다.");
-            return false;
-        }
-    });
-});
 </script>
 
 <!-- NICKNAME check -->
@@ -121,6 +121,74 @@ $(document).ready(function () {
             if(!isNickMatch){
                 alert("닉네임 중복 확인을 완료해주세요.");
                 $("#nickname").focus().select();
+                return false;
+            }
+        });
+    });
+</script>
+
+<!-- PHONE check -->
+<script>
+    var isPhoneValid = false;
+
+    function formatPhone(phone) {
+        phone = phone.replace(/\D/g, "");
+        if(phone.length < 4) return phone;
+        if(phone.length < 7) return phone.replace(/(\d{3})(\d{1,3})/, "$1-$2");
+        if(phone.length < 11) return phone.replace(/(\d{3})(\d{3,4})(\d{1,4})/, "$1-$2-$3");
+        return phone.replace(/(\d{3})(\d{4})(\d{4})/,"$1-$2-$3");
+    }
+
+    function validatePhone(phone) {
+        phone = phone.replaceAll(/\D/g,"");
+        var regex = /^01[0-9]{8,9}$/;
+        return regex.test(phone);
+    }
+
+    $(document).ready(function () {
+        $("#phone").on("keyup", function() {
+            var formatted = formatPhone($(this).val());
+            $(this).val(formatted);
+        });
+
+        $("#phone_check_btn").click(function() {
+            var phone = $("#phone").val()
+
+            if(phone === "") {
+                alert("전화번호를 입력해주세요.");
+                return;
+            }
+
+            if(!validatePhone(phone)) {
+                $("#phone_check_msg").text("전화번호 형식이 올바르지 않습니다.").css("color", "red");
+                isPhoneValid = false;
+                return;
+            }
+
+            $.ajax({
+                type : "post",
+                url : "/phone_check",
+                data : {"phone": phone},
+                success : function (data) {
+                    if(data === "match") {
+                        $("#phone_check_msg").text("사용 가능한 전화번호입니다.").css("color","green");
+                        isPhoneValid = true;
+                    } else {
+                        $("#phone_check_msg").text("이미 사용중인 전화번호입니다.").css("color","red");
+                        isPhoneValid = false;
+                        $("#phone").focus().select();
+                    }
+                },
+                error: function () {
+                    alert("서버 통신 중 오류가 발생했습니다.");
+                }
+            });
+        });
+
+        $("form").submit(function () {
+            if(!isPhoneValid) {
+                alert("전화번호 확인 버튼을 눌러 중복 확인을 완료해주세요.");
+                $("#phone").focus().select();
                 return false;
             }
         });
@@ -167,10 +235,16 @@ $(document).ready(function () {
             <button type="button" id="nick_check_btn">닉네임 확인</button>
             <span id="nick_check_msg" style="color:red;"></span>
         </div>
+
+        <!-- 전화번호 유효성 검사 -->
         <div>
             <label>CELLPHONE: </label>
-            <input type="text" id="phone" name="phone"/>
+            <input type="text" id="phone" name="phone" maxlength="13"/>
+            <button type="button" id="phone_check_btn">전화번호 확인</button>
+            <span id="phone_check_msg"></span>
         </div>
+
+
         <div>
             <label>ADRESS: </label>
             <input type="text" id="madress" name="madress"/>

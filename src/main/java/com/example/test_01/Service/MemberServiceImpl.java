@@ -32,6 +32,11 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
+    public int phonecheck(String phone) {
+        return repository.phonecheck(phone);
+    }
+
+    @Override
     public int idcehck(String id) {
         return repository.idcheck(id);
     }

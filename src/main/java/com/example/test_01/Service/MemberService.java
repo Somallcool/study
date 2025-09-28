@@ -8,4 +8,6 @@ public interface MemberService {
     void save(MemberDTO dto);
 
     int nickcheck(String nickname);
+
+    int phonecheck(String phone);
 }

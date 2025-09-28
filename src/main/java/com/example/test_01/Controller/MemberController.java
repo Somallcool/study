@@ -86,4 +86,15 @@ public class MemberController {
         }
     }
 
+    @PostMapping("/phone_check")
+    @ResponseBody
+    public String phonecheck(@RequestParam("phone") String phone){
+        int count = service.phonecheck(phone);
+        if (count == 0) {
+            return "match";
+        } else {
+            return "no";
+        }
+    }
+
 }
