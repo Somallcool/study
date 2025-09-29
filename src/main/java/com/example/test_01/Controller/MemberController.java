@@ -51,7 +51,7 @@ public class MemberController {
 
  */
 
-    @PostMapping("/idcheck")
+    @PostMapping("/check/id")
     @ResponseBody
     public String idcheck(@RequestParam("id") String id) {
         int count = service.idcehck(id);
@@ -63,7 +63,7 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/pwcheck")
+    @PostMapping("/check/pw")
     @ResponseBody
     public String pwcheck(@RequestParam("pw") String pw,
                           @RequestParam("pwCheck") String pwCheck) {
@@ -75,7 +75,7 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/nickname_check")
+    @PostMapping("/check/nickname")
     @ResponseBody
     public String nickcheck(@RequestParam("nickname") String nickname){
         int count = service.nickcheck(nickname);
@@ -86,7 +86,7 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/phone_check")
+    @PostMapping("/check/phone")
     @ResponseBody
     public String phonecheck(@RequestParam("phone") String phone){
         int count = service.phonecheck(phone);

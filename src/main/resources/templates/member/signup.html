@@ -21,7 +21,7 @@
 
             $.ajax({
                 type: "post",
-                url: "idcheck",
+                url: "/check/id",
                 data: {"id": id},
                 success: function (data) {
                     if (data === "ok") {
@@ -57,7 +57,7 @@
 
             $.ajax({
                 type: "post",
-                url: "/pwcheck",
+                url: "/check/pw",
                 data: { "pw": pw, "pwCheck": pwCheck },
                 success: function (data) {
                     if(data === "match") {
@@ -99,7 +99,7 @@
 
             $.ajax({
                 type:"post",
-                url:"/nickname_check",
+                url:"/check/nickname",
                 data:{"nickname":nickname},
                 success: function(data) {
                     if(data === "match"){
@@ -128,6 +128,7 @@
 </script>
 
 <!-- PHONE check -->
+
 <script>
     var isPhoneValid = false;
 
@@ -167,7 +168,7 @@
 
             $.ajax({
                 type : "post",
-                url : "/phone_check",
+                url : "/check/phone",
                 data : {"phone": phone},
                 success : function (data) {
                     if(data === "match") {
@@ -194,6 +195,7 @@
         });
     });
 </script>
+
 <div>
     <h2>회원가입</h2>
     <form th:action="@{/signup_save}" th:object="${memberDTO}" method="post">

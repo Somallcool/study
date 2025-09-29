@@ -3,22 +3,25 @@ package com.example.test_01.Service;
 import com.example.test_01.DTO.MemberDTO;
 import com.example.test_01.Entity.MemberEntity;
 import com.example.test_01.Repository.MemberRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MemberServiceImpl implements MemberService{
 
     private final MemberRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
-    public MemberServiceImpl(MemberRepository repository) {
+    public MemberServiceImpl(MemberRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public void save(MemberDTO dto) {
         MemberEntity entity = new MemberEntity();
         entity.setId(dto.getId());
-        entity.setPw(dto.getPw());
+        entity.setPw(passwordEncoder.encode(dto.getPw()));
         entity.setNickname(dto.getNickname());
         entity.setPhone(dto.getPhone());
         entity.setMadress(dto.getMadress());

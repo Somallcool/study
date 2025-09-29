@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{top::menu}"></div>
+<title>login</title>
+<body>
+
+<div>
+    <span><h1>LOGIN</h1></span>
+    <form th:action="@{/go_login}" method="post">
+        <div>
+            <label>ID: </label>
+            <input type="text" id="id" name="id" placeholder="아이디를 입력하세요." />
+        </div>
+        <div>
+            <label>PW: </label>
+            <input type="password" id="pw" name="pw" placeholder="비밀번호를 입력하세요." />
+        </div>
+        <button type="submit">로그인</button>
+    </form>
+</div>
+
+</body>
+</html>
