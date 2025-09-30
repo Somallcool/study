@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org" th:fragment="menu">
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="menu"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -33,9 +34,22 @@
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
+            <li sec:authorize="!isAuthenticated()">
+                <a href="sign_up"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
+            </li>
+            <li sec:authorize="!isAuthenticated()">
+                <a href="login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+            </li>
 
-            <li><a href="sign_up"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-            <li><a href="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <li sec:authorize="isAuthenticated()">
+                <a>
+                    <span class="glyphicon glyphicon-ok"></span>
+                    <span sec:authentication="name"></span> 님, 반갑습니다.
+                </a>
+            </li>
+            <li sec:authorize="isAuthenticated()">
+                <a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+            </li>
         </ul>
     </div>
 </nav>

@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
+public interface MemberRepository extends JpaRepository<MemberEntity, String> {
     @Query(value = "SELECT count(m.id) " +
             "FROM testtable03 m " +
             "WHERE m.id = :id", nativeQuery = true)
