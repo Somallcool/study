@@ -25,8 +25,16 @@ public class MemberServiceImpl implements MemberService{
         entity.setNickname(dto.getNickname());
         entity.setPhone(dto.getPhone());
         entity.setMadress(dto.getMadress());
-
+        if (dto.getRole() != null && !dto.getRole().isEmpty()) {
+            entity.setRole(dto.getRole());
+        }
         repository.save(entity);
+    }
+
+    @Override
+    public void saveAdmin(MemberDTO dto) {
+        dto.setRole("ADMIN");
+        save(dto);
     }
 
     @Override

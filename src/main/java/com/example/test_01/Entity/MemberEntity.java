@@ -25,5 +25,10 @@ public class MemberEntity {
     @Column
     private String madress;
 
-    public MemberEntity() {}
+    @Column
+    private String role;
+
+    public MemberEntity() {
+        this.role = "USER";
+    }
 }

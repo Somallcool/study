@@ -6,6 +6,7 @@ public interface MemberService {
     int idcehck(String id);
 
     void save(MemberDTO dto);
+    void saveAdmin(MemberDTO dto);
 
     int nickcheck(String nickname);
 

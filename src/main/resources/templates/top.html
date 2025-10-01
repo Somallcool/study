@@ -44,7 +44,11 @@
             <li sec:authorize="isAuthenticated()">
                 <a>
                     <span class="glyphicon glyphicon-ok"></span>
-                    <span sec:authentication="name"></span> 님, 반갑습니다.
+                    <span sec:authorize="hasRole('ADMIN')">관리자</span>
+                    <span sec:authorize="!hasRole('ADMIN')">
+                        <span sec:authentication="name"></span>
+                    </span>
+                     님, 반갑습니다.
                 </a>
             </li>
             <li sec:authorize="isAuthenticated()">
