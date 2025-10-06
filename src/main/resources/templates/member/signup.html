@@ -77,7 +77,7 @@
 
         $("form").submit(function () {
             if(!isPwMatch) {
-                alert("비밀번호가 일치하지 않습니다.");
+                alert("비밀번호가 일치하지 않습니다. 비밀번호를 확인해주세요.");
                 return false;
             }
         });
@@ -120,7 +120,6 @@
         $("form").submit(function() {
             if(!isNickMatch){
                 alert("닉네임 중복 확인을 완료해주세요.");
-                $("#nickname").focus().select();
                 return false;
             }
         });
@@ -141,7 +140,7 @@
 
     function validatePhone(phone) {
         phone = phone.replaceAll(/\D/g,"");
-        var regex = /^01[0-9]{8,9}$/;
+        var regex = /^01[0-9]{9}$/;
         return regex.test(phone);
     }
 
@@ -162,6 +161,7 @@
             if(!validatePhone(phone)) {
                 $("#phone_check_msg").text("전화번호 형식이 올바르지 않습니다.").css("color", "red");
                 isPhoneValid = false;
+                $("#phone").focus();
                 return;
             }
 
@@ -188,7 +188,6 @@
         $("form").submit(function () {
             if(!isPhoneValid) {
                 alert("전화번호 확인 버튼을 눌러 중복 확인을 완료해주세요.");
-                $("#phone").focus().select();
                 return false;
             }
         });

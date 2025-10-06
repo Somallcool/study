@@ -30,7 +30,7 @@ public class MemberController {
 
     @PostMapping("/signup_save")
     public String signup02(MemberDTO dto) {
-        if(!dto.getPw().equals(dto.getPwcheck())) {
+        if (!dto.getPw().equals(dto.getPwcheck())) {
             return "member/signup";
         }
 
@@ -68,7 +68,7 @@ public class MemberController {
     public String pwcheck(@RequestParam("pw") String pw,
                           @RequestParam("pwCheck") String pwCheck) {
 
-        if(pw.equals(pwCheck)) {
+        if (pw.equals(pwCheck)) {
             return "match";
         } else {
             return "nomatch";
@@ -77,7 +77,7 @@ public class MemberController {
 
     @PostMapping("/check/nickname")
     @ResponseBody
-    public String nickcheck(@RequestParam("nickname") String nickname){
+    public String nickcheck(@RequestParam("nickname") String nickname) {
         int count = service.nickcheck(nickname);
         if (count == 0) {
             return "match";
@@ -88,7 +88,7 @@ public class MemberController {
 
     @PostMapping("/check/phone")
     @ResponseBody
-    public String phonecheck(@RequestParam("phone") String phone){
+    public String phonecheck(@RequestParam("phone") String phone) {
         int count = service.phonecheck(phone);
         if (count == 0) {
             return "match";
