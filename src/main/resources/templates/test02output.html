@@ -36,8 +36,8 @@
                     <img th:src="@{'/image/' + ${out2.testimage}}" width="150" height="150"/>
                 </td>
                 <td>
-                    <a th:href="@{update2(num=${out2.id})}">수정</a>
-                    <a th:href="@{delete2(num=${out2.id}, testimage=${out2.testimage})}"
+                    <a th:href="@{/admin/update2(num=${out2.id})}">수정</a>
+                    <a th:href="@{/admin/delete2(num=${out2.id}, testimage=${out2.testimage})}"
                        onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</a>
                 </td>
             </tr>

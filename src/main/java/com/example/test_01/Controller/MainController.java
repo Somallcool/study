@@ -89,13 +89,13 @@ public class MainController {
 
     // -------------------------------------------------------------------
 //입력창 이동
-    @GetMapping(value = "/input02")
+    @GetMapping("/admin/input02")
     public String input02(Test02DTO dto, Model model) {
         model.addAttribute("dto", dto);
         return "test02input";
     }
 //저장
-    @PostMapping(value = "/save02")
+    @PostMapping("/save02")
     public String save02(Test02DTO dto, MultipartHttpServletRequest mul) throws IOException {
 
         MultipartFile mf = mul.getFile("image");
@@ -130,7 +130,7 @@ public class MainController {
     }
 
 
-    @GetMapping(value = "update2")
+    @GetMapping("/admin/update2")
     public String update02_1(@RequestParam("num") long num, Model model) {
         Test02Entity entity= service02.update02(num);
         model.addAttribute("update", entity);
@@ -138,7 +138,7 @@ public class MainController {
         return "test02update";
     }
 
-    @PostMapping(value = "update_save02") //GPT가 해준 부분
+    @PostMapping("/update_save02") //GPT가 해준 부분
     public String update02_2(
             @RequestParam("id") long id,
             @RequestParam("title") String title,
@@ -167,7 +167,7 @@ public class MainController {
     }
 
 
-    @GetMapping("delete2")
+    @GetMapping("/admin/delete2")
     public String delete02(@RequestParam("num") long num,
                            @RequestParam("testimage") String testimage) {
         service02.delete02(num);
@@ -185,7 +185,7 @@ public class MainController {
         return "test02detail";
     }
 
-    @GetMapping(value = "/test02search")
+    @GetMapping("/test02search")
     public String search02(@RequestParam("testsearch") String testsearch,
                            Model mo){
         List<Test02Entity> list = service02.titleSearch(testsearch);

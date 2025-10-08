@@ -11,4 +11,10 @@ public class LoginController {
 
         return "member/login";
     }
+
+    @GetMapping("/admin_page")
+    public String login02() {
+
+        return "login/admin_page";
+    }
 }
