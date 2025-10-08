@@ -25,58 +25,56 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        // 1. 기본 OAuth2UserService를 생성하여 사용자 정보를 가져옵니다.
+        // 1. 카카오 API로부터 원시 사용자 정보를 받아옵니다.
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
         OAuth2User oauth2User = delegate.loadUser(userRequest);
 
-        // 2. 서비스 등록 ID (여기서는 'kakao')
+        // 2. 카카오 로그인임을 식별하고, 고유 ID와 속성명을 추출합니다.
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
-        // 3. 사용자 정보의 키 (application.properties에서 설정한 'id')
         String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
-
-        // 4. 카카오 사용자 정보 추출
         String kakaoId = oauth2User.getAttribute(userNameAttributeName).toString();
 
-        // 카카오 계정 정보는 'kakao_account' 아래에 있습니다.
+        // 3. 카카오 응답에서 필요한 데이터(이메일, 닉네임)를 추출합니다.
         Map<String, Object> kakaoAccount = oauth2User.getAttribute("kakao_account");
         Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
 
         String email = (String) kakaoAccount.get("email");
         String nickname = (String) profile.get("nickname");
 
-        // 5. DB 저장 또는 업데이트 로직 실행
-        MemberEntity member = saveOrUpdate(kakaoId, email, nickname);
+        // 4. 추출한 정보로 DB에 저장/업데이트 로직을 호출합니다.
+        MemberEntity member = saveOrUpdate(kakaoId, email, nickname, registrationId);
 
-        // 6. SecurityContext에 저장할 객체 생성 및 반환
+        // 5. Spring Security에 인증 완료 객체를 반환합니다.
         return new DefaultOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority(member.getRole())), // 권한 설정
-                oauth2User.getAttributes(), // 사용자 정보 속성
-                userNameAttributeName // 사용자 고유 ID 속성 키 (여기서는 'id')
+                Collections.singleton(new SimpleGrantedAuthority("ROLE" + member.getRole())), // 권한 설정
+                oauth2User.getAttributes(),
+                userNameAttributeName
         );
     }
 
     /**
      * 소셜 로그인 사용자의 DB 저장/업데이트 처리
      */
-    private MemberEntity saveOrUpdate(String kakaoId, String email, String nickname) {
-        // 소셜 로그인 사용자의 ID는 일반 회원과 충돌을 막기 위해 접두사를 붙여 저장
-        String uniqueId = "KAKAO_" + kakaoId;
+    private MemberEntity saveOrUpdate(String kakaoId, String email, String nickname, String provider) {
 
-        // 1. 기존 회원이 있는지 찾습니다.
+        // 1. 카카오 ID 앞에 접두사를 붙여 유니크 ID를 생성합니다.
+        String uniqueId = provider.toUpperCase() + "_" + kakaoId; // 예: KAKAO_1234567
+
+        // 2. DB에서 회원을 찾거나, 없으면 새로운 엔티티를 생성합니다.
         MemberEntity entity = memberRepository.findById(uniqueId)
-                .orElse(new MemberEntity()); // 없으면 새 객체 생성
+                .orElse(new MemberEntity());
 
-        // 2. 정보 업데이트/초기 설정
+        // 3. 엔티티에 카카오 정보를 매핑하고 업데이트합니다.
         entity.setId(uniqueId);
-        entity.setPw("SOCIAL_LOGIN_DUMMY"); // Spring Security에서 일반 로그인과 분리하기 위한 더미 값
+        entity.setPw("SOCIAL_LOGIN_DUMMY"); // 소셜 로그인은 비밀번호가 필요 없으므로 더미 값 설정
         entity.setNickname(nickname);
+        entity.setProvider(provider.toUpperCase()); // KAKAO
         entity.setRole("USER");
-
-        // 이메일은 카카오에서 제공하지만 동의가 필수 사항이 아니므로 null 체크 필요
         if (email != null && !email.isEmpty()) {
-            // entity.setEmail(email); // MemberEntity에 email 필드가 있다면 저장
+            entity.setEmail(email);
         }
 
+        // 4. DB에 저장(업데이트)하고 반환합니다.
         return memberRepository.save(entity);
     }
 }

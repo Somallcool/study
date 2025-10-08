@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <div th:replace="~{top::menu}"></div>
 <body>
 <div>
@@ -22,7 +22,7 @@
                 <th>내용</th>
                 <th>날짜</th>
                 <th>이미지</th>
-                <th>관리</th>
+                <th sec:authorize="hasRole('ADMIN')">관리</th>
             </tr>
             <tr th:each="out2 : ${list}"
                 th:onclick="|window.location='@{detail02(num=${out2.id})}'|"
@@ -35,7 +35,7 @@
                 <td>
                     <img th:src="@{'/image/' + ${out2.testimage}}" width="150" height="150"/>
                 </td>
-                <td>
+                <td sec:authorize="hasRole('ADMIN')">
                     <a th:href="@{/admin/update2(num=${out2.id})}">수정</a>
                     <a th:href="@{/admin/delete2(num=${out2.id}, testimage=${out2.testimage})}"
                        onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</a>

@@ -28,6 +28,12 @@ public class MemberEntity {
     @Column
     private String role;
 
+    @Column(name = "provider", nullable = true)
+    private String provider;
+
+    @Column
+    private String email;
+
     public MemberEntity() {
         this.role = "USER";
     }
